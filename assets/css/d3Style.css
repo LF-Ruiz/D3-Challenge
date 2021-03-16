@@ -31,8 +31,8 @@
 }
 
 .stateCircle {
-  fill: #89bdd3;
-  stroke: #e3e3e3;
+  fill: #419cc4;
+  stroke: #0e0d0d;
 }
 
 .chart {
@@ -59,12 +59,12 @@
   }
 
   .aText {
-    font-size: 14px;
+    font-size: 21px;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 350px) {
   .aText {
-    font-size: 13px;
+    font-size: 11px;
   }
 }

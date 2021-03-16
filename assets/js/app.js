@@ -1,36 +1,41 @@
 // @TODO: YOUR CODE HERE!
 // define variables and functions
 
-function makeResponsive() {
+//define svg mesurements and margins
+let svgWidth = 960;
+let svgHeight = 600;
 
+let margin = {
+    top: 20,
+    right: 40,
+    bottom: 60,
+    left: 100
+};
 
-    let svgWidth = 960;
-    let svgHeight = 600;
-
-    let margin = {
-        top: 20,
-        right: 40,
-        bottom: 60,
-        left: 100
-    };
-
-    let width = svgWidth - margin.left - margin.right;
-    let height = svgHeight - margin.top - margin.bottom;
+//define chart measurements
+let width = svgWidth - margin.left - margin.right;
+let height = svgHeight - margin.top - margin.bottom;
 
     // Create an SVG wrapper, append an SVG group that will hold our chart, and shift the latter by left and top margins.
-    let svg = d3.select("#scatter")
+let svg = d3.select("#scatter")
         .append("svg")
         .attr("width", svgWidth)
         .attr("height", svgHeight);
 
-    let chartGroup = svg.append("g")
+let chartGroup = svg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+function makeResponsive() {
+
+
 
     // Import Data
     d3.csv("assets/data/data.csv").then(function (censusData) {
-
+        console.log('promise fulfilled')
+        //console.log(censusData)
         // Step 1: Parse Data/Cast as numbers
         censusData.forEach(function (data) {
+            
             data.poverty = +data.poverty;
             data.healthcare = +data.healthcare;
             data.age = +data.age;
@@ -38,7 +43,7 @@ function makeResponsive() {
             data.smokes = +data.smokes;
             data.obesity = +data.obesity;
         });
-        console.log(censusData);
+        //console.log(censusData);
 
         // Step 2: Create scale functions
         // ==============================
@@ -55,8 +60,8 @@ function makeResponsive() {
 
         // Step 3: Create axis functions
         // ==============================
-        let bottomAxis = d3.axisBottom(xPovertyScale).ticks(9);
-        let leftAxis = d3.axisLeft(yHealthScale).ticks(12);
+        let bottomAxis = d3.axisBottom(xPovertyScale).ticks(10);
+        let leftAxis = d3.axisLeft(yHealthScale).ticks(15);
 
         // Step 4: Append Axes to the chart
         // ==============================
@@ -78,18 +83,18 @@ function makeResponsive() {
             .append("circle")
             .attr("cx", d => xPovertyScale(d.poverty))
             .attr("cy", d => yHealthScale(d.healthcare))
-            .attr("r", "10")
+            .attr("r", "15")
             .classed("stateCircle", true)
-            .attr("stroke-width", "1")
-            .attr("stroke", "black");
+            .attr("stroke-width", "2")
+            .attr("stroke", "blue");
 
         // Step 5: add text
         // ==============================
         let circlesLabel =
             chartGroup.selectAll(null).data(censusData).enter().append('text');
 
-        console.log(circlesLabel)
-
+        // console.log(circlesLabel) // check if the text has been appended
+        //add text to the group using d.abbr
         circlesLabel
             .attr("x", function (d) {
                 return xPovertyScale(d.poverty);
