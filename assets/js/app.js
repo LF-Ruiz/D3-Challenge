@@ -1,35 +1,44 @@
 // @TODO: YOUR CODE HERE!
 // define variables and functions
 
-//define svg mesurements and margins
-// let svgWidth = 960;
-// let svgHeight = 600;
-  // svg params
-let svgHeight = window.innerHeight;
-let svgWidth = window.innerWidth;
 
-let margin = {
-    top: 20,
-    right: 40,
-    bottom: 60,
-    left: 100
-};
-
-//define chart measurements
-let width = svgWidth - margin.left - margin.right;
-let height = svgHeight - margin.top - margin.bottom;
-
-// Create an SVG wrapper, append an SVG group that will hold our chart, and shift the latter by left and top margins.
-let svg = d3.select("#scatter")
-    .append("svg")
-    .attr("width", svgWidth)
-    .attr("height", svgHeight);
-
-let chartGroup = svg.append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 function makeResponsive() {
 
+    // if the SVG area isn't empty when the browser loads,
+    // remove it and replace it with a resized version of the chart
+    let svgArea = d3.select("body").select("svg");
+
+    if (!svgArea.empty()) {
+        svgArea.remove();
+    };
+
+    //define svg mesurements and margins
+    let svgWidth = 900;
+    let svgHeight = 700;
+    // svg params
+    // let svgHeight = window.innerHeight;
+    // let svgWidth = window.innerWidth;
+
+    let margin = {
+        top: 50,
+        right: 100,
+        bottom: 100,
+        left: 85
+    };
+
+    //define chart measurements
+    let width = svgWidth - margin.left - margin.right;
+    let height = svgHeight - margin.top - margin.bottom;
+
+    // Create an SVG wrapper, append an SVG group that will hold our chart, and shift the latter by left and top margins.
+    let svg = d3.select("#scatter")
+        .append("svg")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight);
+
+    let chartGroup = svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 
     // Import Data
@@ -86,7 +95,7 @@ function makeResponsive() {
             .append("circle")
             .attr("cx", d => xPovertyScale(d.poverty))
             .attr("cy", d => yHealthScale(d.healthcare))
-            .attr("r", "15")
+            .attr("r", "20")
             .classed("stateCircle", true)
             .attr("stroke-width", "2")
             .attr("stroke", "blue");
@@ -127,72 +136,72 @@ function makeResponsive() {
             .text("In Poverty (%)");
 
         //============================================================================
-        // Bonus D3-data journalism
-        let chosenXAxis = "poverty";
-        let chosenYAxis = "healthcare";
+        // // Bonus D3-data journalism
+        // let chosenXAxis = "poverty";
+        // let chosenYAxis = "healthcare";
 
-        // =========
-        // function to update circle group using Tooltip
-        // ==============================
-        function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
+        // // =========
+        // // function to update circle group using Tooltip
+        // // ==============================
+        // function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup, textGroup) {
 
-            if (chosenXAxis === "poverty") {
-                let xLabel = "Poverty (%)";
-            }
-            else if (chosenXAxis === "age") {
-                let xLabel = "Age (Median)";
-            }
-            else {
-                let xLabel = "Household Income (Median)";
-            }
-            if (chosenYAxis === "healthcare") {
-                let yLabel = "Lacks Healthcare (%)";
-            }
-            else if (chosenYAxis === "smokes") {
-                let yLabel = "Smokes (%)";
-            }
-            else {
-                let yLabel = "Obese (%)";
-            }
+        //     if (chosenXAxis === "poverty") {
+        //         let xLabel = "Poverty (%)";
+        //     }
+        //     else if (chosenXAxis === "age") {
+        //         let xLabel = "Age (Median)";
+        //     }
+        //     else {
+        //         let xLabel = "Household Income (Median)";
+        //     }
+        //     if (chosenYAxis === "healthcare") {
+        //         let yLabel = "Lacks Healthcare (%)";
+        //     }
+        //     else if (chosenYAxis === "smokes") {
+        //         let yLabel = "Smokes (%)";
+        //     }
+        //     else {
+        //         let yLabel = "Obese (%)";
+        //     }
 
-            // Initialize tool tip
-            // ==============================
-            let toolTip = d3.tip()
-                // .classed("tooltip", true)
-                // .classed("d3-tip",true)
-                .attr("class", "tooltip d3-tip")
-                .offset([80, 80])
-                .html(function (d) {
-                    return (`<strong>${d.state}</strong><br>${xLabel} ${d[chosenXAxis]}<br>${yLabel} ${d[chosenYAxis]}`);
-                });
-            // Create Circles 
-            circlesGroup.call(toolTip);
-            // event listeners to display and hide the tooltip
-            circlesGroup.on("mouseover", function (data) {
-                toolTip.show(data, this);
-            })
-                // mouseout Event
-                .on("mouseout", function (data) {
-                    toolTip.hide(data);
-                });
+        //     // Initialize tool tip
+        //     // ==============================
+        //     let toolTip = d3.tip()
+        //         // .classed("tooltip", true)
+        //         // .classed("d3-tip",true)
+        //         .attr("class", "tooltip d3-tip")
+        //         .offset([80, 80])
+        //         .html(function (d) {
+        //             return (`<strong>${d.state}</strong><br>${xLabel} ${d[chosenXAxis]}<br>${yLabel} ${d[chosenYAxis]}`);
+        //         });
+        //     // Create Circles 
+        //     circlesGroup.call(toolTip);
+        //     // event listeners to display and hide the tooltip
+        //     circlesGroup.on("mouseover", function (data) {
+        //         toolTip.show(data, this);
+        //     })
+        //         // mouseout Event
+        //         .on("mouseout", function (data) {
+        //             toolTip.hide(data);
+        //         });
 
 
-            // create text tooltip
-            textGroup.call(toolTip);
-            // event listeners to display and hide the tooltip
-            textGroup.on("mouseover", function (data) {
-                toolTip.show(data, this);
-            })
-                //mouseout event
-                .on("mouseout", function (data) {
-                    toolTip.hide(data);
-                });
+        //     // create text tooltip
+        //     textGroup.call(toolTip);
+        //     // event listeners to display and hide the tooltip
+        //     textGroup.on("mouseover", function (data) {
+        //         toolTip.show(data, this);
+        //     })
+        //         //mouseout event
+        //         .on("mouseout", function (data) {
+        //             toolTip.hide(data);
+        //         });
 
-            return circlesGroup;
-        }
+        //     return circlesGroup;
+        // }
     }).catch(function (error) {
-            console.log(error);
-        });
+        console.log(error);
+    });
 
 
 }
